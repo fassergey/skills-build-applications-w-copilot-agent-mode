@@ -28,8 +28,6 @@ OctoFit Tracker is a three-tier application for a school fitness program. The st
 
 ## Implementation decisions
 
-Record your plan here before editing code.
-
 - Presentation tier decision:
     1) Keep the frontend as a thin React UI that consumes the API contract and renders activity, team, leaderboard, and workout data with accessible Bootstrap layouts.
     2) Use the shared client and route-level components to display real API responses without introducing extra state-management layers beyond what the app already needs.
@@ -53,8 +51,6 @@ Record your plan here before editing code.
     2) Ensure the first suggestion's `focus` and `reason` reflect the most relevant pattern while returning a deliberate 4xx when no matching user email exists.
 
 ## Test plan
-
-Record the commands you run and what each failure means.
 
 - Data-tier command: `npm run test:data --prefix octofit-tracker/backend`
   - Current result: 4 failing validation tests and 1 passing seed/idempotence test.
