@@ -28,26 +28,13 @@ OctoFit Tracker is a three-tier application for a school fitness program. The st
 
 ## Implementation decisions
 
-- Presentation tier decision: 
-    - Keep the frontend as a thin React UI that consumes the API contract and renders activity, team, leaderboard, and workout data with accessible Bootstrap layouts.
-    - Use the shared client and route-level components to display real API responses without introducing extra state-management layers beyond what the app already needs.
-    - Logic tier decision: Implement the Express + TypeScript routes and services in `octofit-tracker/backend/src` around the API contract with input validation and centralized error handling.
-    - Normalize cast errors and invalid IDs into deliberate 4xx responses so the API never leaks a MongoDB validation failure as a 500.
-- Data tier decision:
-    - Fix the Mongoose schemas and seed data in `octofit-tracker/backend/src/models` and `src/scripts/seed.ts` so required fields, relationships, and derived values are enforced before requests hit the API.
-    - Keep the persisted data shape aligned to the seeded user/team/activity/workout records used by the contract and tests.
-- Activity tracking approach:
-    - Create each activity with a valid `user` and `team`, store the submitted `type` and `minutes`, and compute `points` and `occurredAt` at creation time.
-    - Reject malformed IDs or missing references with explicit 4xx responses so activity creation and listing remain valid and deterministic.
-- Team management approach:
-    - Require a team `name` and `mascot` when creating a team and preserve the submitted `members` array structure.
-    - Validate memberships through the existing user records so invalid or missing team members cannot be created through the API.
-- Leaderboard approach:
-    - Aggregate each team's activity points, sort totals descending, and assign a 1-based rank to each result.
-    - Return the expected response shape of `{ teamName, totalPoints, rank }` so the frontend can render sorted rankings directly.
-- Workout suggestions approach:
-    - Match the requested user by email to the seeded user set, then use recent activity patterns to recommend workouts aligned with the user's goal or focus area.
-    - Ensure the first suggestion's `focus` and `reason` reflect the most relevant pattern while returning a deliberate 4xx when no matching user email exists.
+- Presentation tier decision: Keep the frontend as a thin React UI that consumes the API contract and renders activity, team, leaderboard, and workout data with accessible Bootstrap layouts. Use the shared client and route-level components to display real API responses without introducing extra state-management layers beyond what the app already needs.
+- Logic tier decision: Implement the Express + TypeScript routes and services in `octofit-tracker/backend/src` around the API contract with input validation and centralized error handling. Normalize cast errors and invalid IDs into deliberate 4xx responses so the API never leaks a MongoDB validation failure as a 500.
+- Data tier decision: Fix the Mongoose schemas and seed data in `octofit-tracker/backend/src/models` and `src/scripts/seed.ts` so required fields, relationships, and derived values are enforced before requests hit the API. Keep the persisted data shape aligned to the seeded user/team/activity/workout records used by the contract and tests.
+- Activity tracking approach: Create each activity with a valid `user` and `team`, store the submitted `type` and `minutes`, and compute `points` and `occurredAt` at creation time. Reject malformed IDs or missing references with explicit 4xx responses so activity creation and listing remain valid and deterministic.
+- Team management approach: Require a team `name` and `mascot` when creating a team and preserve the submitted `members` array structure. Validate memberships through the existing user records so invalid or missing team members cannot be created through the API.
+- Leaderboard approach: Aggregate each team's activity points, sort totals descending, and assign a 1-based rank to each result. Return the expected response shape of `{ teamName, totalPoints, rank }` so the frontend can render sorted rankings directly.
+- Workout suggestions approach: Match the requested user by email to the seeded user set, then use recent activity patterns to recommend workouts aligned with the user's goal or focus area. Ensure the first suggestion's `focus` and `reason` reflect the most relevant pattern while returning a deliberate 4xx when no matching user email exists.
 
 ## Test plan
 
