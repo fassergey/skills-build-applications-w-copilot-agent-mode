@@ -30,9 +30,14 @@ OctoFit Tracker is a three-tier application for a school fitness program. The st
 
 Record your plan here before editing code.
 
-- Presentation tier decision:
-- Logic tier decision:
 - Data tier decision:
+    1) Fix Mongoose schemas and seed data validation in octofit-tracker/backend/src/models
+    2) This is the dependency root: the API contract and frontend both assume valid     persisted objects and seeded records
+- Logic tier decision:
+    1) Implement the Express routes/services in octofit-tracker/backend/src for activities, teams, leaderboard, and workout suggestions
+    2) This is the next dependency chain once the models validate correctly
+- Presentation tier decision:
+    1) Implement the React pages and API client in octofit-tracker/frontend/src only after backend responses match the contract
 - Activity tracking approach:
 - Team management approach:
 - Leaderboard approach:
