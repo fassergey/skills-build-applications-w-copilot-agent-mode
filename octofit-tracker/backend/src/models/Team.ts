@@ -1,9 +1,13 @@
 import { Schema, model } from 'mongoose';
 
 const teamSchema = new Schema({
-  name: String,
-  mascot: String,
-  members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  name: { type: String, required: true },
+  mascot: { type: String, required: true },
+  members: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    default: [],
+    required: true,
+  },
 });
 
 export const Team = model('Team', teamSchema);
